@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>CHI Swipe Scheduler</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">ACM SIGCHI Planner</p>
+        <h1>Swipe your CHI schedule into shape.</h1>
+        <p class="hero-text">
+          Review papers one by one, flag papers you want to read, and export your saved schedule as an iCal file.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <button id="download-reading" class="button button-secondary">Download Reading List As CSV</button>
+        <button id="download-ics" class="button button-primary">Download iCal</button>
+      </div>
+    </header>
+
+    <main class="content-grid">
+      <section class="deck-panel glass">
+        <div class="panel-header">
+          <div>
+            <p class="panel-label">Paper Deck</p>
+            <h2>Swipe to decide</h2>
+          </div>
+          <div class="status-pill" id="progress-pill">Loading...</div>
+        </div>
+
+        <div id="message-banner" class="message-banner hidden"></div>
+
+        <div class="deck-stage">
+          <div id="empty-state" class="empty-state hidden">
+            <h3>All papers reviewed</h3>
+            <p>Your saved picks are ready for calendar export.</p>
+          </div>
+          <article id="paper-card" class="paper-card hidden" aria-live="polite">
+            <div class="card-topline">
+              <span id="card-time" class="meta-chip"></span>
+              <span id="card-room" class="meta-chip meta-chip-muted"></span>
+            </div>
+            <h3 id="card-title"></h3>
+            <p id="card-authors" class="authors"></p>
+            <div class="card-flags">
+              <span id="read-flag" class="flag hidden">Read</span>
+              <span id="saved-flag" class="flag flag-positive hidden">Attending</span>
+            </div>
+            <div class="swipe-hint">
+              <span>Swipe left to pass</span>
+              <span>Swipe right to save</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="controls">
+          <button id="pass-button" class="button button-ghost">Pass</button>
+          <button id="read-button" class="button button-read">Read</button>
+          <button id="save-button" class="button button-primary">Attend</button>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <section class="glass list-panel">
+          <div class="panel-header">
+            <div>
+              <h2>Reading List</h2>
+            </div>
+            <span id="read-count" class="count-badge">0</span>
+          </div>
+          <div id="read-list" class="list"></div>
+        </section>
+
+        <section class="glass list-panel">
+          <div class="panel-header">
+            <div>
+              <p class="panel-label">Your Schedule</p>
+              <h2>Attending</h2>
+            </div>
+            <span id="saved-count" class="count-badge">0</span>
+          </div>
+          <div id="saved-list" class="list"></div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <template id="list-item-template">
+    <article class="list-item">
+      <div class="list-item-meta">
+        <p class="list-item-time"></p>
+        <p class="list-item-room"></p>
+      </div>
+      <h3 class="list-item-title"></h3>
+      <p class="list-item-authors"></p>
+    </article>
+  </template>
+
+  <script src="all_papers.data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
