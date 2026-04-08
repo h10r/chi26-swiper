@@ -136,12 +136,28 @@ function loadPapers(csvText) {
     Object.entries(state.decisions).filter(([id]) => validIds.has(id))
   );
 
-  if (state.currentIndex >= state.order.length) {
-    state.currentIndex = 0;
-  }
+  syncCurrentIndex();
 
   persistState();
   render();
+}
+
+function syncCurrentIndex() {
+  const firstPendingIndex = state.order.findIndex((id) => !state.decisions[id]?.choice);
+
+  if (firstPendingIndex === -1) {
+    state.currentIndex = state.order.length;
+    return;
+  }
+
+  if (!Number.isInteger(state.currentIndex) || state.currentIndex < 0) {
+    state.currentIndex = firstPendingIndex;
+    return;
+  }
+
+  if (state.currentIndex >= state.order.length || state.decisions[state.order[state.currentIndex]]?.choice) {
+    state.currentIndex = firstPendingIndex;
+  }
 }
 
 function mapPaper(row) {
